@@ -1,0 +1,23 @@
+gcp_credentials: ENCRYPTED[538e49fc6c33d6692859bcb5fb308615396585811abd84eade84fcaee68c7a01464486694814e3dd4afe64d1b4e88ebf]
+
+gce_instance:
+  image_project: ubuntu-os-cloud
+  image_name: ubuntu-1604-xenial-v20170919
+  zone: us-central1-a
+  cpu: 2
+  memory: 4Gb
+  disk: 40
+  scopes:
+    - compute
+    - devstorage.full_control
+
+build_task:
+  install_script:
+    - which git
+    - apt-get install wget zip --assume-yes
+    - wget https://releases.hashicorp.com/packer/1.1.0/packer_1.1.0_linux_amd64.zip
+    - unzip packer_1.1.0_linux_amd64.zip -d packer
+    - chmod +x packer/packer
+    - mv packer/packer /usr/bin/
+    - packer -v
+  script: ./build.sh
