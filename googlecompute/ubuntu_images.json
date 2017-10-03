@@ -8,7 +8,8 @@
       "source_image": "{{user `gce_base_image`}}",
       "image_name": "java-{{user `java_version`}}",
       "ssh_username": "ubuntu",
-      "ssh_pty": "true"
+      "ssh_pty": "true",
+      "preemptible": "true"
     },
     {
       "type": "googlecompute",
@@ -18,7 +19,8 @@
       "source_image": "{{user `gce_base_image`}}",
       "image_name": "packer",
       "ssh_username": "ubuntu",
-      "ssh_pty": "true"
+      "ssh_pty": "true",
+      "preemptible": "true"
     }
   ],
   "provisioners": [
