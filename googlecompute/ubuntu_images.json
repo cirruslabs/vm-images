@@ -39,6 +39,17 @@
     {
       "type": "shell",
       "inline": [
+        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq apt-transport-https ca-certificates curl software-properties-common",
+        "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -",
+        "sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\"",
+        "sudo apt-get update",
+        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq docker-ce"
+      ],
+      "only": ["java"]
+    },
+    {
+      "type": "shell",
+      "inline": [
         "wget https://releases.hashicorp.com/packer/1.1.0/packer_1.1.0_linux_amd64.zip",
         "sudo unzip packer_1.1.0_linux_amd64.zip -d packer",
         "sudo chmod +x packer/packer",
