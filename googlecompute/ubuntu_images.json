@@ -1,0 +1,52 @@
+{
+  "builders": [
+    {
+      "type": "googlecompute",
+      "name": "java",
+      "project_id": "{{user `gcp_project_id`}}",
+      "zone": "us-central1-f",
+      "source_image": "{{user `gce_base_image`}}",
+      "image_name": "java-{{user `java_version`}}",
+      "ssh_username": "ubuntu",
+      "ssh_pty": "true"
+    },
+    {
+      "type": "googlecompute",
+      "name": "packer",
+      "project_id": "{{user `gcp_project_id`}}",
+      "zone": "us-central1-f",
+      "source_image": "{{user `gce_base_image`}}",
+      "image_name": "packer",
+      "ssh_username": "ubuntu",
+      "ssh_pty": "true"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo DEBIAN_FRONTEND=noninteractive apt-get update -y -qq",
+        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git vim build-essential zip"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq openjdk-{{user `java_version`}}-jdk"
+      ],
+      "only": ["java"]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "wget https://releases.hashicorp.com/packer/1.1.0/packer_1.1.0_linux_amd64.zip",
+        "sudo unzip packer_1.1.0_linux_amd64.zip -d packer",
+        "sudo chmod +x packer/packer",
+        "sudo mv packer/packer /usr/bin/",
+        "sudo rm packer_1.1.0_linux_amd64.zip",
+        "sudo rm -rf packer"
+      ],
+      "only": ["packer"]
+    }
+  ]
+}
