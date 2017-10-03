@@ -1,8 +1,8 @@
 gcp_credentials: ENCRYPTED[7a619395f1e099c0f68c0ef7def8695c80fdf1b36b1e21776c3aeeb2fcc853e0ea10f77c998057b56f287bc2e5865e15]
 
 gce_instance:
-  image_project: ubuntu-os-cloud
-  image_name: ubuntu-1604-xenial-v20170919
+  image_project: cirrus-images-latest
+  image_name: packer
   zone: us-central1-a
   cpu: 2
   memory: 4Gb
@@ -12,12 +12,4 @@ gce_instance:
     - devstorage.full_control
 
 build_task:
-  install_script:
-    - which git
-    - apt-get install wget zip --assume-yes
-    - wget https://releases.hashicorp.com/packer/1.1.0/packer_1.1.0_linux_amd64.zip
-    - unzip packer_1.1.0_linux_amd64.zip -d packer
-    - chmod +x packer/packer
-    - mv packer/packer /usr/bin/
-    - packer -v
   script: ./build.sh
