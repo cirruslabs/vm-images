@@ -6,10 +6,11 @@
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-f",
       "source_image": "{{user `gce_base_image`}}",
-      "image_name": "java-{{user `java_version`}}",
-      "ssh_username": "ubuntu",
+      "image_name": "ubuntu-java-{{user `java_version`}}",
+      "ssh_username": "cirrus",
       "ssh_pty": "true",
-      "preemptible": "true"
+      "preemptible": "true",
+      "tags": ["packer"]
     },
     {
       "type": "googlecompute",
@@ -17,10 +18,11 @@
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-f",
       "source_image": "{{user `gce_base_image`}}",
-      "image_name": "packer",
+      "image_name": "ubuntu-packer",
       "ssh_username": "ubuntu",
       "ssh_pty": "true",
-      "preemptible": "true"
+      "preemptible": "true",
+      "tags": ["packer"]
     }
   ],
   "provisioners": [

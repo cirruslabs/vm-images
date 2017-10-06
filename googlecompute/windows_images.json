@@ -1,0 +1,54 @@
+{
+  "builders": [
+    {
+      "type": "googlecompute",
+      "name": "java",
+      "project_id": "{{user `gcp_project_id`}}",
+      "zone": "us-central1-f",
+      "source_image": "{{user `gce_base_image`}}",
+      "image_name": "windows-java-{{user `java_version`}}",
+      "machine_type": "n1-standard-2",
+      "disk_size": "50",
+      "preemptible": "true",
+      "communicator": "winrm",
+      "winrm_username": "cirrus",
+      "winrm_insecure": true,
+      "winrm_use_ssl": true,
+      "winrm_timeout": "5m",
+      "metadata": {
+        "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add cirrus & net localgroup administrators cirrus /add & netsh advfirewall firewall set rule name=\"Windows Remote Management (HTTP-In)\" profile=public new remoteip=any & winrm set winrm/config/service @{AllowUnencrypted=\"true\"} & winrm set winrm/config/service/auth @{Basic=\"true\"} & powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-ExecutionPolicy -ExecutionPolicy bypass -Force\""
+      },
+      "tags": ["packer"]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "windows-shell",
+      "inline": [
+        "@\"%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command \"iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))\" && SET \"PATH=%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin\""
+      ]
+    },
+    {
+      "type": "windows-shell",
+      "inline": [
+        "choco install -y git wget"
+      ]
+    },
+    {
+      "type": "windows-shell",
+      "inline": [
+        "choco install -y jdk{{user `java_version`}}"
+
+      ],
+      "only": ["java"]
+    },
+    {
+      "type": "windows-shell",
+      "inline": [
+        "choco install -y docker"
+
+      ],
+      "only": ["java"]
+    }
+  ]
+}
