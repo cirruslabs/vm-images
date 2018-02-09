@@ -1,7 +1,7 @@
-gcp_credentials: ENCRYPTED[7a619395f1e099c0f68c0ef7def8695c80fdf1b36b1e21776c3aeeb2fcc853e0ea10f77c998057b56f287bc2e5865e15]
+gcp_credentials: ENCRYPTED[1b5c33f6a4dad695c900754d08d5f69658be074ccde2b78e7958ea07d81d149cc9c15bab6be2d7fad6c1058a81c7cea3]
 
 gce_instance:
-  image_project: cirrus-images-latest
+  image_project: cirrus-images
   image_name: packer
   zone: us-central1-a
   cpu: 2
@@ -14,7 +14,7 @@ gce_instance:
 ubuntu_task:
   script: >
     packer build -force \
-      -var 'gcp_project_id=cirrus-images-latest' \
+      -var 'gcp_project_id=cirrus-images' \
       -var 'gce_base_image=ubuntu-1604-xenial-v20180126' \
       -var 'java_version=8' \
       googlecompute/ubuntu_images.json
