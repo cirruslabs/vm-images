@@ -2,7 +2,7 @@ gcp_credentials: ENCRYPTED[1b5c33f6a4dad695c900754d08d5f69658be074ccde2b78e7958e
 
 gce_instance:
   image_project: cirrus-images
-  image_name: packer
+  image_name: ubuntu-packer
   zone: us-central1-a
   cpu: 2
   memory: 4Gb
