@@ -14,6 +14,18 @@
     },
     {
       "type": "googlecompute",
+      "name": "docker",
+      "project_id": "{{user `gcp_project_id`}}",
+      "zone": "us-central1-f",
+      "source_image": "{{user `gce_base_image`}}",
+      "image_name": "ubuntu-docker",
+      "ssh_username": "cirrus",
+      "ssh_pty": "true",
+      "preemptible": "true",
+      "tags": ["packer"]
+    },
+    {
+      "type": "googlecompute",
       "name": "packer",
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-f",
@@ -49,7 +61,7 @@
         "sudo apt-get update",
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq docker-ce"
       ],
-      "only": ["java"]
+      "only": ["java", "docker"]
     },
     {
       "type": "shell",
