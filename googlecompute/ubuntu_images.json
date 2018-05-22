@@ -4,7 +4,7 @@
       "type": "googlecompute",
       "name": "java",
       "project_id": "{{user `gcp_project_id`}}",
-      "zone": "us-central1-f",
+      "zone": "us-central1-a",
       "source_image": "{{user `gce_base_image`}}",
       "image_name": "ubuntu-java-{{user `java_version`}}",
       "ssh_username": "cirrus",
@@ -16,7 +16,7 @@
       "type": "googlecompute",
       "name": "docker",
       "project_id": "{{user `gcp_project_id`}}",
-      "zone": "us-central1-f",
+      "zone": "us-central1-a",
       "source_image": "{{user `gce_base_image`}}",
       "image_name": "ubuntu-docker",
       "ssh_username": "cirrus",
@@ -28,7 +28,7 @@
       "type": "googlecompute",
       "name": "packer",
       "project_id": "{{user `gcp_project_id`}}",
-      "zone": "us-central1-f",
+      "zone": "us-central1-a",
       "source_image": "{{user `gce_base_image`}}",
       "image_name": "ubuntu-packer",
       "ssh_username": "ubuntu",
@@ -41,8 +41,8 @@
     {
       "type": "shell",
       "inline": [
-        "sudo DEBIAN_FRONTEND=noninteractive apt-get update -y -qq",
-        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git vim build-essential zip"
+        "sudo apt-get update -y -qq",
+        "sudo apt-get install -y -qq git vim build-essential zip"
       ]
     },
     {
