@@ -4,9 +4,29 @@
       "type": "googlecompute",
       "name": "java",
       "project_id": "{{user `gcp_project_id`}}",
-      "zone": "us-central1-f",
+      "zone": "us-central1-a",
       "source_image": "{{user `gce_base_image`}}",
       "image_name": "windows-java-{{user `java_version`}}",
+      "machine_type": "n1-standard-2",
+      "disk_size": "50",
+      "preemptible": "true",
+      "communicator": "winrm",
+      "winrm_username": "cirrus",
+      "winrm_insecure": true,
+      "winrm_use_ssl": true,
+      "winrm_timeout": "5m",
+      "metadata": {
+        "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add cirrus & net localgroup administrators cirrus /add & netsh advfirewall firewall set rule name=\"Windows Remote Management (HTTP-In)\" profile=public new remoteip=any & winrm set winrm/config/service @{AllowUnencrypted=\"true\"} & winrm set winrm/config/service/auth @{Basic=\"true\"} & powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-ExecutionPolicy -ExecutionPolicy bypass -Force\""
+      },
+      "tags": ["packer"]
+    },
+    {
+      "type": "googlecompute",
+      "name": "docker",
+      "project_id": "{{user `gcp_project_id`}}",
+      "zone": "us-central1-a",
+      "source_image": "{{user `gce_base_image`}}",
+      "image_name": "{{user `gce_base_image`}}-docker",
       "machine_type": "n1-standard-2",
       "disk_size": "50",
       "preemptible": "true",
@@ -48,7 +68,7 @@
         "choco install -y docker"
 
       ],
-      "only": ["java"]
+      "only": ["java", "docker"]
     }
   ]
 }
