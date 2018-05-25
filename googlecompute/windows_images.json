@@ -65,7 +65,7 @@
     {
       "type": "windows-shell",
       "inline": [
-        "choco install -y docker"
+        "choco install -y docker-for-windows"
 
       ],
       "only": ["java", "docker"]
