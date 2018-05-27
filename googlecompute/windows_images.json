@@ -63,12 +63,21 @@
       "only": ["java"]
     },
     {
-      "type": "windows-shell",
+      "type": "powershell",
       "inline": [
-        "choco install -y docker-for-windows"
-
+        "Install-PackageProvider -Name NuGet -Force",
+        "Install-Module -Name DockerMsftProvider -Repository PSGallery -Force",
+        "Install-Package -Name docker -ProviderName DockerMsftProvider -Force",
+        "netsh netkvm setparam 0 *RscIPv4 0",
+        "reg add HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip6\\Parameters /v DisabledComponents /t REG_DWORD /d 0x0 /f"
       ],
       "only": ["java", "docker"]
+    },
+    {
+      "type": "windows-shell",
+      "inline": [
+        "refreshenv"
+      ]
     }
   ]
 }
