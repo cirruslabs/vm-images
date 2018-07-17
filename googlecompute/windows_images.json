@@ -5,16 +5,15 @@
       "name": "java",
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
-      "source_image": "{{user `gce_base_image`}}",
+      "source_image": "windows-server-1803-dc-core-v20180710",
       "image_name": "windows-java-{{user `java_version`}}",
       "machine_type": "n1-standard-2",
       "disk_size": "50",
-      "preemptible": "true",
       "communicator": "winrm",
       "winrm_username": "cirrus",
       "winrm_insecure": true,
       "winrm_use_ssl": true,
-      "winrm_timeout": "5m",
+      "winrm_timeout": "15m",
       "metadata": {
         "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add cirrus & net localgroup administrators cirrus /add & netsh advfirewall firewall set rule name=\"Windows Remote Management (HTTP-In)\" profile=public new remoteip=any & winrm set winrm/config/service @{AllowUnencrypted=\"true\"} & winrm set winrm/config/service/auth @{Basic=\"true\"} & powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-ExecutionPolicy -ExecutionPolicy bypass -Force\""
       },
@@ -22,19 +21,37 @@
     },
     {
       "type": "googlecompute",
-      "name": "docker",
+      "name": "docker-2016",
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
-      "source_image": "{{user `gce_base_image`}}",
-      "image_name": "{{user `gce_base_image`}}-docker",
+      "source_image": "windows-server-2016-dc-core-v20180710",
+      "image_name": "windows-server-2016-dc-core-v20180710-docker",
       "machine_type": "n1-standard-2",
       "disk_size": "50",
-      "preemptible": "true",
       "communicator": "winrm",
       "winrm_username": "cirrus",
       "winrm_insecure": true,
       "winrm_use_ssl": true,
-      "winrm_timeout": "5m",
+      "winrm_timeout": "15m",
+      "metadata": {
+        "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add cirrus & net localgroup administrators cirrus /add & netsh advfirewall firewall set rule name=\"Windows Remote Management (HTTP-In)\" profile=public new remoteip=any & winrm set winrm/config/service @{AllowUnencrypted=\"true\"} & winrm set winrm/config/service/auth @{Basic=\"true\"} & powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-ExecutionPolicy -ExecutionPolicy bypass -Force\""
+      },
+      "tags": ["packer"]
+    },
+    {
+      "type": "googlecompute",
+      "name": "docker-1803",
+      "project_id": "{{user `gcp_project_id`}}",
+      "zone": "us-central1-a",
+      "source_image": "windows-server-1803-dc-core-v20180710",
+      "image_name": "windows-server-1803-dc-core-v20180710-docker",
+      "machine_type": "n1-standard-2",
+      "disk_size": "50",
+      "communicator": "winrm",
+      "winrm_username": "cirrus",
+      "winrm_insecure": true,
+      "winrm_use_ssl": true,
+      "winrm_timeout": "25m",
       "metadata": {
         "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add cirrus & net localgroup administrators cirrus /add & netsh advfirewall firewall set rule name=\"Windows Remote Management (HTTP-In)\" profile=public new remoteip=any & winrm set winrm/config/service @{AllowUnencrypted=\"true\"} & winrm set winrm/config/service/auth @{Basic=\"true\"} & powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-ExecutionPolicy -ExecutionPolicy bypass -Force\""
       },
@@ -70,14 +87,25 @@
         "Install-Package -Name docker -ProviderName DockerMsftProvider -Force",
         "netsh netkvm setparam 0 *RscIPv4 0",
         "reg add HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip6\\Parameters /v DisabledComponents /t REG_DWORD /d 0x0 /f"
-      ],
-      "only": ["java", "docker"]
+      ]
+    },
+    {
+      "type": "windows-restart",
+      "only": ["docker-2016", "docker-1803"]
     },
     {
       "type": "windows-shell",
       "inline": [
-        "refreshenv"
-      ]
+        "docker pull microsoft/windowsservercore:ltsc2016"
+      ],
+      "only": ["docker-2016"]
+    },
+    {
+      "type": "windows-shell",
+      "inline": [
+        "docker pull microsoft/windowsservercore:1803"
+      ],
+      "only": ["docker-1803"]
     }
   ]
 }
