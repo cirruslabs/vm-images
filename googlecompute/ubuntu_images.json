@@ -18,7 +18,7 @@
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
       "source_image": "{{user `gce_base_image`}}",
-      "image_name": "ubuntu-docker",
+      "image_name": "ubuntu-1804-bionic-v20180911-docker",
       "ssh_username": "cirrus",
       "ssh_pty": "true",
       "preemptible": "true",
@@ -51,6 +51,14 @@
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq openjdk-{{user `java_version`}}-jdk"
       ],
       "only": ["java"]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo snap install --classic aws-cli",
+        "sudo snap install --classic heroku"
+      ],
+      "only": ["docker"]
     },
     {
       "type": "shell",
