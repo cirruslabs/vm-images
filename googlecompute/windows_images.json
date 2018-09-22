@@ -24,8 +24,8 @@
       "name": "docker-2016",
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
-      "source_image": "windows-server-2016-dc-core-v20180710",
-      "image_name": "windows-server-2016-dc-core-v20180710-docker",
+      "source_image": "windows-server-2016-dc-core-v20180911",
+      "image_name": "windows-server-2016-dc-core-v20180911-docker",
       "machine_type": "n1-standard-2",
       "disk_size": "50",
       "communicator": "winrm",
@@ -96,7 +96,8 @@
     {
       "type": "windows-shell",
       "inline": [
-        "docker pull microsoft/windowsservercore:ltsc2016"
+        "docker pull microsoft/windowsservercore:ltsc2016",
+        "docker pull cirrusci/windowsservercore:2016"
       ],
       "only": ["docker-2016"]
     },
