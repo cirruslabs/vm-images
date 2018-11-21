@@ -18,7 +18,7 @@
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
       "source_image": "{{user `gce_base_image`}}",
-      "image_name": "ubuntu-1804-bionic-v20180911-docker",
+      "image_name": "{{user `gce_base_image`}}-docker",
       "ssh_username": "cirrus",
       "ssh_pty": "true",
       "preemptible": "true",
