@@ -18,7 +18,7 @@
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
       "source_image": "{{user `gce_base_image`}}",
-      "image_name": "{{user `gce_base_image`}}-docker",
+      "image_name": "{{user `gce_base_image`}}-docker-builder",
       "ssh_username": "cirrus",
       "ssh_pty": "true",
       "preemptible": "true",
@@ -55,6 +55,8 @@
     {
       "type": "shell",
       "inline": [
+        "sudo apt-get update",
+        "sudo apt-get install -y python-pip python-dev build-essential",
         "sudo snap install --classic aws-cli",
         "sudo snap install --classic heroku"
       ],
