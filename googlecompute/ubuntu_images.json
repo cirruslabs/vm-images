@@ -57,8 +57,8 @@
       "inline": [
         "sudo apt-get update",
         "sudo apt-get install -y python-pip python-dev build-essential",
-        "sudo snap install --classic aws-cli",
-        "sudo snap install --classic heroku"
+        "sudo pip install awscli --upgrade",
+        "curl https://cli-assets.heroku.com/install-ubuntu.sh | sh"
       ],
       "only": ["docker"]
     },
