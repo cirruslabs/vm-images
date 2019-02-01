@@ -2,18 +2,19 @@
   "builders": [
     {
       "type": "googlecompute",
-      "name": "java",
+      "name": "docker-2016",
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
-      "source_image": "windows-server-1803-dc-core-v20181113",
-      "image_name": "windows-java-{{user `java_version`}}",
+      "source_image": "windows-server-2016-dc-core-{{user `gce_version`}}",
+      "image_name": "windows-server-2016-dc-core-{{user `gce_version`}}-docker",
       "machine_type": "n1-standard-2",
-      "disk_size": "50",
+      "disk_size": "100",
       "communicator": "winrm",
       "winrm_username": "cirrus",
       "winrm_insecure": true,
       "winrm_use_ssl": true,
       "winrm_timeout": "15m",
+      "state_timeout": "15m",
       "metadata": {
         "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add cirrus & net localgroup administrators cirrus /add & netsh advfirewall firewall set rule name=\"Windows Remote Management (HTTP-In)\" profile=public new remoteip=any & winrm set winrm/config/service @{AllowUnencrypted=\"true\"} & winrm set winrm/config/service/auth @{Basic=\"true\"} & powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-ExecutionPolicy -ExecutionPolicy bypass -Force\""
       },
@@ -21,18 +22,19 @@
     },
     {
       "type": "googlecompute",
-      "name": "docker-2016",
+      "name": "docker-1709",
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
-      "source_image": "windows-server-2016-dc-core-v20181113",
-      "image_name": "windows-server-2016-dc-core-v20181113-docker",
+      "source_image": "windows-server-1709-dc-core-for-containers-{{user `gce_version`}}",
+      "image_name": "windows-server-1709-dc-core-for-containers-{{user `gce_version`}}-docker",
       "machine_type": "n1-standard-2",
-      "disk_size": "50",
+      "disk_size": "100",
       "communicator": "winrm",
       "winrm_username": "cirrus",
       "winrm_insecure": true,
       "winrm_use_ssl": true,
-      "winrm_timeout": "15m",
+      "winrm_timeout": "25m",
+      "state_timeout": "25m",
       "metadata": {
         "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add cirrus & net localgroup administrators cirrus /add & netsh advfirewall firewall set rule name=\"Windows Remote Management (HTTP-In)\" profile=public new remoteip=any & winrm set winrm/config/service @{AllowUnencrypted=\"true\"} & winrm set winrm/config/service/auth @{Basic=\"true\"} & powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-ExecutionPolicy -ExecutionPolicy bypass -Force\""
       },
@@ -43,15 +45,36 @@
       "name": "docker-1803",
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
-      "source_image": "windows-server-1803-dc-core-v20181113",
-      "image_name": "windows-server-1803-dc-core-v20181113-docker",
+      "source_image": "windows-server-1803-dc-core-for-containers-{{user `gce_version`}}",
+      "image_name": "windows-server-1803-dc-core-for-containers-{{user `gce_version`}}-docker",
       "machine_type": "n1-standard-2",
-      "disk_size": "50",
+      "disk_size": "100",
       "communicator": "winrm",
       "winrm_username": "cirrus",
       "winrm_insecure": true,
       "winrm_use_ssl": true,
       "winrm_timeout": "25m",
+      "state_timeout": "25m",
+      "metadata": {
+        "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add cirrus & net localgroup administrators cirrus /add & netsh advfirewall firewall set rule name=\"Windows Remote Management (HTTP-In)\" profile=public new remoteip=any & winrm set winrm/config/service @{AllowUnencrypted=\"true\"} & winrm set winrm/config/service/auth @{Basic=\"true\"} & powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-ExecutionPolicy -ExecutionPolicy bypass -Force\""
+      },
+      "tags": ["packer"]
+    },
+    {
+      "type": "googlecompute",
+      "name": "docker-2019",
+      "project_id": "{{user `gcp_project_id`}}",
+      "zone": "us-central1-a",
+      "source_image": "windows-server-2019-dc-core-for-containers-{{user `gce_version`}}",
+      "image_name": "windows-server-2019-dc-core-for-containers-{{user `gce_version`}}-docker",
+      "machine_type": "n1-standard-2",
+      "disk_size": "100",
+      "communicator": "winrm",
+      "winrm_username": "cirrus",
+      "winrm_insecure": true,
+      "winrm_use_ssl": true,
+      "winrm_timeout": "25m",
+      "state_timeout": "25m",
       "metadata": {
         "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add cirrus & net localgroup administrators cirrus /add & netsh advfirewall firewall set rule name=\"Windows Remote Management (HTTP-In)\" profile=public new remoteip=any & winrm set winrm/config/service @{AllowUnencrypted=\"true\"} & winrm set winrm/config/service/auth @{Basic=\"true\"} & powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-ExecutionPolicy -ExecutionPolicy bypass -Force\""
       },
@@ -72,14 +95,6 @@
       ]
     },
     {
-      "type": "windows-shell",
-      "inline": [
-        "choco install -y jdk{{user `java_version`}}"
-
-      ],
-      "only": ["java"]
-    },
-    {
       "type": "powershell",
       "inline": [
         "Install-PackageProvider -Name NuGet -Force",
@@ -91,12 +106,13 @@
     },
     {
       "type": "windows-restart",
-      "only": ["docker-2016", "docker-1803"]
+      "only": ["docker-2016", "docker-1709", "docker-1803", "docker-2019"]
     },
     {
       "type": "windows-shell",
       "inline": [
         "docker pull microsoft/windowsservercore:ltsc2016",
+        "docker pull mcr.microsoft.com/windows/servercore:ltsc2016",
         "docker pull cirrusci/windowsservercore:2016"
       ],
       "only": ["docker-2016"]
@@ -104,9 +120,25 @@
     {
       "type": "windows-shell",
       "inline": [
-        "docker pull microsoft/windowsservercore:1803"
+        "docker pull microsoft/windowsservercore:1709",
+        "docker pull mcr.microsoft.com/windows/servercore:1709"
+      ],
+      "only": ["docker-1709"]
+    },
+    {
+      "type": "windows-shell",
+      "inline": [
+        "docker pull microsoft/windowsservercore:1803",
+        "docker pull mcr.microsoft.com/windows/servercore:1803"
       ],
       "only": ["docker-1803"]
+    },
+    {
+      "type": "windows-shell",
+      "inline": [
+        "docker pull mcr.microsoft.com/windows/servercore:ltsc2019"
+      ],
+      "only": ["docker-2019"]
     }
   ]
 }
