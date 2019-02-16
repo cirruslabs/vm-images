@@ -125,6 +125,19 @@
       "type": "windows-restart"
     },
     {
+      "type": "windows-restart",
+      "only": ["docker-2016", "docker-1709", "docker-1803", "docker-2019"]
+    },
+    {
+      "type": "windows-shell",
+      "inline": [
+        "netsh interface ipv4 show interfaces",
+        "netsh interface ipv4 set subinterface 7 mtu=1460 store=persistent",
+        "netsh interface ipv4 show interfaces"
+      ],
+      "only": ["docker-2016"]
+    },
+    {
       "type": "windows-shell",
       "inline": [
         "docker pull microsoft/windowsservercore:ltsc2016",
