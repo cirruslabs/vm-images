@@ -24,4 +24,5 @@ windows_task:
     packer build -force \
       -var 'gcp_project_id=cirrus-images' \
       -var 'gce_version=v20190411' \
+      -var 'java_version=12' \
       googlecompute/windows_images.json
