@@ -50,7 +50,7 @@
       "inline": [
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq openjdk-{{user `java_version`}}-jdk"
       ],
-      "only": ["java"]
+      "only": ["java", "docker"]
     },
     {
       "type": "shell",
@@ -60,6 +60,7 @@
         "sudo apt-get install -y ruby-dev",
         "sudo gem install bundler",
         "sudo pip install awscli --upgrade",
+        "sudo pip install docker-compose --upgrade",
         "curl https://cli-assets.heroku.com/install-ubuntu.sh | sh"
       ],
       "only": ["docker"]
