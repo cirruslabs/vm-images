@@ -15,7 +15,7 @@ ubuntu_task:
   script: >
     packer build -force \
       -var 'gcp_project_id=cirrus-images' \
-      -var 'gce_base_image=ubuntu-1810-cosmic-v20190618' \
+      -var 'gce_base_image=ubuntu-1810-cosmic-v20190918' \
       -var 'java_version=11' \
       googlecompute/ubuntu_images.json
 
@@ -23,6 +23,6 @@ windows_task:
   script: >
     packer build -force \
       -var 'gcp_project_id=cirrus-images' \
-      -var 'gce_version=v20190620' \
+      -var 'gce_version=v20190910' \
       -var 'java_version=11' \
       googlecompute/windows_images.json
