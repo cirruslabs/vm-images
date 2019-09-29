@@ -60,7 +60,7 @@
         "sudo apt-get install -y ruby-dev",
         "sudo gem install bundler",
         "sudo pip install awscli --upgrade",
-        "sudo pip install docker-compose --upgrade",
+        "sudo pip install docker docker-compose --upgrade",
         "curl https://cli-assets.heroku.com/install-ubuntu.sh | sh"
       ],
       "only": ["docker"]
