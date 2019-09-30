@@ -2,26 +2,6 @@
   "builders": [
     {
       "type": "googlecompute",
-      "name": "docker-2016",
-      "project_id": "{{user `gcp_project_id`}}",
-      "zone": "us-central1-a",
-      "source_image": "windows-server-2016-dc-core-{{user `gce_version`}}",
-      "image_name": "windows-server-2016-dc-core-{{user `gce_version`}}-docker",
-      "machine_type": "n1-standard-4",
-      "disk_size": "100",
-      "communicator": "winrm",
-      "winrm_username": "cirrus",
-      "winrm_insecure": true,
-      "winrm_use_ssl": true,
-      "winrm_timeout": "15m",
-      "state_timeout": "15m",
-      "metadata": {
-        "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add cirrus & net localgroup administrators cirrus /add & netsh advfirewall firewall set rule name=\"Windows Remote Management (HTTP-In)\" profile=public new remoteip=any & winrm set winrm/config/service @{AllowUnencrypted=\"true\"} & winrm set winrm/config/service/auth @{Basic=\"true\"} & powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-ExecutionPolicy -ExecutionPolicy bypass -Force\""
-      },
-      "tags": ["packer"]
-    },
-    {
-      "type": "googlecompute",
       "name": "docker-2019",
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
@@ -36,27 +16,7 @@
       "winrm_timeout": "25m",
       "state_timeout": "25m",
       "metadata": {
-        "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add cirrus & net localgroup administrators cirrus /add & netsh advfirewall firewall set rule name=\"Windows Remote Management (HTTP-In)\" profile=public new remoteip=any & winrm set winrm/config/service @{AllowUnencrypted=\"true\"} & winrm set winrm/config/service/auth @{Basic=\"true\"} & powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-ExecutionPolicy -ExecutionPolicy bypass -Force\""
-      },
-      "tags": ["packer"]
-    },
-    {
-      "type": "googlecompute",
-      "name": "java",
-      "project_id": "{{user `gcp_project_id`}}",
-      "zone": "us-central1-a",
-      "source_image": "windows-server-2019-dc-core-for-containers-{{user `gce_version`}}",
-      "image_name": "windows-java-{{user `java_version`}}",
-      "machine_type": "n1-standard-4",
-      "disk_size": "100",
-      "communicator": "winrm",
-      "winrm_username": "cirrus",
-      "winrm_insecure": true,
-      "winrm_use_ssl": true,
-      "winrm_timeout": "25m",
-      "state_timeout": "25m",
-      "metadata": {
-        "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add cirrus & net localgroup administrators cirrus /add & netsh advfirewall firewall set rule name=\"Windows Remote Management (HTTP-In)\" profile=public new remoteip=any & winrm set winrm/config/service @{AllowUnencrypted=\"true\"} & winrm set winrm/config/service/auth @{Basic=\"true\"} & powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-ExecutionPolicy -ExecutionPolicy bypass -Force\""
+        "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add cirrus & net localgroup administrators cirrus /add & winrm set winrm/config/service/auth @{Basic=\"true\"}"
       },
       "tags": ["packer"]
     }
@@ -65,61 +25,20 @@
     {
       "type": "windows-shell",
       "inline": [
-        "@\"%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -NoLogo -InputFormat None -ExecutionPolicy Bypass -Command \"iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))\" && SET \"PATH=%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin\"",
-        "choco install -y openjdk",
-        "choco install -y git"
-      ],
-      "only": ["java"]
-    },
-    {
-      "type": "powershell",
-      "inline": [
-        "Install-PackageProvider -Name NuGet -Force",
-        "Install-Module -Name DockerMsftProvider -Repository PSGallery -Force",
-        "Install-Package -Name docker -ProviderName DockerMsftProvider -Force",
-        "netsh netkvm setparam 0 *RscIPv4 0",
-        "reg add HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip6\\Parameters /v DisabledComponents /t REG_DWORD /d 0x0 /f"
+        "@\"%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -NoLogo -InputFormat None -ExecutionPolicy Bypass -Command \"iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))\" && SET \"PATH=%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin\""
       ]
     },
     {
-      "type": "windows-restart"
-    },
-    {
-      "type": "windows-restart",
-      "only": ["docker-2016", "docker-2019"]
-    },
-    {
       "type": "windows-shell",
       "inline": [
-        "netsh interface ipv4 show interfaces",
-        "netsh interface ipv4 set subinterface 7 mtu=1460 store=persistent",
-        "netsh interface ipv4 show interfaces"
-      ],
-      "only": ["docker-2016"]
-    },
-    {
-      "type": "windows-shell",
-      "inline": [
-        "docker pull microsoft/windowsservercore:ltsc2016",
-        "docker pull mcr.microsoft.com/windows/servercore:ltsc2016",
-        "docker pull cirrusci/windowsservercore:2016",
-        "docker pull cirrusci/android-sdk:tools-windowsservercore-ltsc2016",
-        "docker pull cirrusci/android-sdk:28-windowsservercore-ltsc2016",
-        "docker pull cirrusci/android-sdk:29-windowsservercore-ltsc2016"
-      ],
-      "only": ["docker-2016"]
-    },
-    {
-      "type": "windows-shell",
-      "inline": [
+        "docker version",
         "docker pull mcr.microsoft.com/windows/servercore:ltsc2019",
         "docker pull cirrusci/windowsservercore:2019",
         "docker pull cirrusci/windowsservercore:cmake",
         "docker pull cirrusci/android-sdk:tools-windowsservercore-2019",
         "docker pull cirrusci/android-sdk:28-windowsservercore-2019",
         "docker pull cirrusci/android-sdk:29-windowsservercore-2019"
-      ],
-      "only": ["docker-2019", "java"]
+      ]
     }
   ]
 }
