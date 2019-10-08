@@ -84,12 +84,7 @@
     {
       "type": "shell",
       "inline": [
-        "wget https://releases.hashicorp.com/packer/1.4.3/packer_1.4.3_linux_amd64.zip",
-        "sudo unzip packer_1.4.3_linux_amd64.zip -d packer",
-        "sudo chmod +x packer/packer",
-        "sudo mv packer/packer /usr/bin/",
-        "sudo rm packer_1.4.3_linux_amd64.zip",
-        "sudo rm -rf packer"
+        "sudo apt-get install -y packer"
       ],
       "only": ["packer"]
     }
