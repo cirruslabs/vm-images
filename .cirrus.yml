@@ -12,14 +12,16 @@ gce_instance:
     - devstorage.full_control
 
 ubuntu_task:
-  script: >
+  version_script: packer --version
+  build_script: >
     packer build -force \
       -var 'gcp_project_id=cirrus-images' \
       -var 'gce_base_image_version=v20191005' \
       googlecompute/ubuntu_images.json
 
 windows_task:
-  script: >
+  version_script: packer --version
+  build_script: >
     packer build -force \
       -var 'gcp_project_id=cirrus-images' \
       -var 'gce_version=v20190910' \
