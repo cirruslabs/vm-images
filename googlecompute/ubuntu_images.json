@@ -2,11 +2,12 @@
   "builders": [
     {
       "type": "googlecompute",
-      "name": "java",
+      "name": "docker",
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
-      "source_image": "{{user `gce_base_image`}}",
-      "image_name": "ubuntu-java-{{user `java_version`}}",
+      "source_image": "ubuntu-minimal-1904-disco-{{user `gce_base_image_version`}}",
+      "image_name": "docker-builder-{{user `gce_base_image_version`}}",
+      "image_family": "docker-builder",
       "ssh_username": "cirrus",
       "ssh_pty": "true",
       "preemptible": "true",
@@ -14,11 +15,14 @@
     },
     {
       "type": "googlecompute",
-      "name": "docker",
+      "name": "kvm",
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
-      "source_image": "{{user `gce_base_image`}}",
-      "image_name": "{{user `gce_base_image`}}-docker-builder",
+      "source_image": "ubuntu-minimal-1904-disco-{{user `gce_base_image_version`}}",
+      "image_name": "docker-kvm-{{user `gce_base_image_version`}}",
+      "image_family": "docker-kvm",
+      "min_cpu_platform": "Intel Haswell",
+      "image_licenses": ["projects/vm-options/global/licenses/enable-vmx"],
       "ssh_username": "cirrus",
       "ssh_pty": "true",
       "preemptible": "true",
@@ -29,8 +33,9 @@
       "name": "packer",
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
-      "source_image": "{{user `gce_base_image`}}",
-      "image_name": "ubuntu-packer",
+      "source_image": "ubuntu-minimal-1904-disco-{{user `gce_base_image_version`}}",
+      "image_name": "ubuntu-packer-{{user `gce_base_image_version`}}",
+      "image_family": "ubuntu-packer",
       "ssh_username": "ubuntu",
       "ssh_pty": "true",
       "preemptible": "true",
@@ -48,14 +53,7 @@
     {
       "type": "shell",
       "inline": [
-        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq openjdk-{{user `java_version`}}-jdk"
-      ],
-      "only": ["java", "docker"]
-    },
-    {
-      "type": "shell",
-      "inline": [
-        "sudo apt-get update",
+        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq openjdk-11-jdk",
         "sudo apt-get install -y python-pip python-dev build-essential",
         "sudo apt-get install -y ruby-dev",
         "sudo gem install bundler",
@@ -74,16 +72,23 @@
         "sudo apt-get update",
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq docker-ce"
       ],
-      "only": ["java", "docker"]
+      "only": ["docker", "kvm"]
     },
     {
       "type": "shell",
       "inline": [
-        "wget https://releases.hashicorp.com/packer/1.1.0/packer_1.1.0_linux_amd64.zip",
-        "sudo unzip packer_1.1.0_linux_amd64.zip -d packer",
+        "sudo apt-get install qemu-kvm -y"
+      ],
+      "only": ["kvm"]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "wget https://releases.hashicorp.com/packer/1.4.3/packer_1.4.3_linux_amd64.zip",
+        "sudo unzip packer_1.4.3_linux_amd64.zip -d packer",
         "sudo chmod +x packer/packer",
         "sudo mv packer/packer /usr/bin/",
-        "sudo rm packer_1.1.0_linux_amd64.zip",
+        "sudo rm packer_1.4.3_linux_amd64.zip",
         "sudo rm -rf packer"
       ],
       "only": ["packer"]
