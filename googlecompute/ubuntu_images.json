@@ -77,6 +77,17 @@
     {
       "type": "shell",
       "inline": [
+        "sudo docker pull cirrusci/wget:latest",
+        "sudo docker pull cirrusci/android-sdk:tools",
+        "sudo docker pull cirrusci/android-sdk:29",
+        "sudo docker pull cirrusci/flutter:stable",
+        "sudo docker pull cirrusci/flutter:latest"
+      ],
+      "only": ["kvm"]
+    },
+    {
+      "type": "shell",
+      "inline": [
         "sudo apt-get install qemu-kvm -y"
       ],
       "only": ["kvm"]
