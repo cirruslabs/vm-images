@@ -5,7 +5,7 @@
       "name": "docker",
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
-      "source_image": "ubuntu-minimal-1804-bionic-{{user `gce_base_image_version`}}",
+      "source_image": "ubuntu-minimal-2004-focal-{{user `gce_base_image_version`}}",
       "image_name": "docker-builder-{{user `gce_base_image_version`}}",
       "image_family": "docker-builder",
       "ssh_username": "cirrus",
@@ -18,7 +18,7 @@
       "name": "kvm",
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
-      "source_image": "ubuntu-minimal-1804-bionic-{{user `gce_base_image_version`}}",
+      "source_image": "ubuntu-minimal-2004-focal-{{user `gce_base_image_version`}}",
       "image_name": "docker-kvm-{{user `gce_base_image_version`}}",
       "image_family": "docker-kvm",
       "min_cpu_platform": "Intel Haswell",
@@ -33,7 +33,7 @@
       "name": "packer",
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
-      "source_image": "ubuntu-minimal-1804-bionic-{{user `gce_base_image_version`}}",
+      "source_image": "ubuntu-minimal-2004-focal-{{user `gce_base_image_version`}}",
       "image_name": "ubuntu-packer-{{user `gce_base_image_version`}}",
       "image_family": "ubuntu-packer",
       "ssh_username": "ubuntu",
@@ -46,7 +46,7 @@
     {
       "type": "shell",
       "inline": [
-        "sudo apt-get update -y -qq",
+        "sudo apt-get update -y",
         "sudo apt-get install -y -qq git vim build-essential zip"
       ]
     },
@@ -54,11 +54,11 @@
       "type": "shell",
       "inline": [
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq openjdk-11-jdk",
-        "sudo apt-get install -y python-pip python-dev build-essential",
+        "sudo apt-get install -y python3-pip python3-dev build-essential",
         "sudo apt-get install -y ruby-dev",
         "sudo gem install bundler",
-        "sudo pip install awscli --upgrade",
-        "sudo pip install docker docker-compose --upgrade",
+        "sudo pip3 install awscli --upgrade",
+        "sudo pip3 install docker docker-compose --upgrade",
         "curl https://cli-assets.heroku.com/install-ubuntu.sh | sh"
       ],
       "only": ["docker"]
@@ -80,7 +80,9 @@
         "sudo docker pull cirrusci/wget:latest",
         "sudo docker pull cirrusci/android-sdk:tools",
         "sudo docker pull cirrusci/android-sdk:29",
+        "sudo docker pull cirrusci/android-sdk:30",
         "sudo docker pull cirrusci/flutter:stable",
+        "sudo docker pull cirrusci/flutter:beta",
         "sudo docker pull cirrusci/flutter:latest"
       ],
       "only": ["kvm"]
@@ -95,11 +97,11 @@
     {
       "type": "shell",
       "inline": [
-        "wget https://releases.hashicorp.com/packer/1.4.4/packer_1.4.4_linux_amd64.zip",
-        "sudo unzip packer_1.4.4_linux_amd64.zip -d packer",
+        "wget https://releases.hashicorp.com/packer/1.6.0/packer_1.6.0_linux_amd64.zip",
+        "sudo unzip packer_1.6.0_linux_amd64.zip -d packer",
         "sudo chmod +x packer/packer",
         "sudo mv packer/packer /usr/bin/",
-        "sudo rm packer_1.4.4_linux_amd64.zip",
+        "sudo rm packer_1.6.0_linux_amd64.zip",
         "sudo rm -rf packer"
       ],
       "only": ["packer"]
