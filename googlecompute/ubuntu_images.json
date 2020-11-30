@@ -97,11 +97,11 @@
     {
       "type": "shell",
       "inline": [
-        "wget https://releases.hashicorp.com/packer/1.6.0/packer_1.6.0_linux_amd64.zip",
-        "sudo unzip packer_1.6.0_linux_amd64.zip -d packer",
+        "wget https://releases.hashicorp.com/packer/1.6.4/packer_1.6.4_linux_amd64.zip",
+        "sudo unzip packer_1.6.4_linux_amd64.zip -d packer",
         "sudo chmod +x packer/packer",
         "sudo mv packer/packer /usr/bin/",
-        "sudo rm packer_1.6.0_linux_amd64.zip",
+        "sudo rm packer_1.6.4_linux_amd64.zip",
         "sudo rm -rf packer"
       ],
       "only": ["packer"]
