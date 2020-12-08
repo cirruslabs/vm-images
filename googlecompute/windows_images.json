@@ -34,7 +34,7 @@
       "inline": [
         "net stop docker",
         "dockerd --unregister-service",
-        "dockerd --register-service --storage-opt size=50G",
+        "dockerd --register-service --storage-opt size=100G",
         "net start docker"
       ]
     },
