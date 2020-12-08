@@ -32,6 +32,15 @@
     {
       "type": "windows-shell",
       "inline": [
+        "net stop docker",
+        "dockerd --unregister-service",
+        "dockerd --register-service --storage-opt size=50G",
+        "net start docker"
+      ]
+    },
+    {
+      "type": "windows-shell",
+      "inline": [
         "docker version",
         "docker pull mcr.microsoft.com/windows/servercore:ltsc2019",
         "docker pull cirrusci/windowsservercore:2019",
