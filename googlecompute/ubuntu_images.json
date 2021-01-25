@@ -53,7 +53,7 @@
     {
       "type": "shell",
       "inline": [
-        "cp /usr/share/unattended-upgrades/20auto-upgrades-disabled /etc/apt/apt.conf.d/"
+        "sudo cp /usr/share/unattended-upgrades/20auto-upgrades-disabled /etc/apt/apt.conf.d/"
       ]
     },
     {
