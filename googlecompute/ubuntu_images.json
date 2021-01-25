@@ -47,7 +47,14 @@
       "type": "shell",
       "inline": [
         "sudo apt-get update -y",
+        "sudo apt-get update -y",
         "sudo apt-get install -y -qq git vim build-essential zip"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo cp /usr/share/unattended-upgrades/20auto-upgrades-disabled /etc/apt/apt.conf.d/"
       ]
     },
     {
