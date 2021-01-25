@@ -53,6 +53,12 @@
     {
       "type": "shell",
       "inline": [
+        "cp /usr/share/unattended-upgrades/20auto-upgrades-disabled /etc/apt/apt.conf.d/"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq openjdk-14-jdk",
         "sudo apt-get install -y python3-pip python3-dev build-essential",
         "sudo apt-get install -y ruby-dev",
