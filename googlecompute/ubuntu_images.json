@@ -8,7 +8,7 @@
       "source_image": "ubuntu-minimal-2004-focal-{{user `gce_base_image_version`}}",
       "image_name": "docker-builder-{{user `gce_base_image_version`}}",
       "image_family": "docker-builder",
-      "ssh_username": "cirrus",
+      "ssh_username": "root",
       "ssh_pty": "true",
       "preemptible": "true",
       "tags": ["packer"]
@@ -23,7 +23,7 @@
       "image_family": "docker-kvm",
       "min_cpu_platform": "Intel Haswell",
       "image_licenses": ["projects/vm-options/global/licenses/enable-vmx"],
-      "ssh_username": "cirrus",
+      "ssh_username": "root",
       "ssh_pty": "true",
       "preemptible": "true",
       "tags": ["packer"]
@@ -36,7 +36,7 @@
       "source_image": "ubuntu-minimal-2004-focal-{{user `gce_base_image_version`}}",
       "image_name": "ubuntu-packer-{{user `gce_base_image_version`}}",
       "image_family": "ubuntu-packer",
-      "ssh_username": "ubuntu",
+      "ssh_username": "root",
       "ssh_pty": "true",
       "preemptible": "true",
       "tags": ["packer"]
@@ -77,7 +77,8 @@
         "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -",
         "sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\"",
         "sudo apt-get update",
-        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq docker-ce"
+        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq docker-ce",
+        "yes | gcloud auth configure-docker"
       ],
       "only": ["docker", "kvm"]
     },
