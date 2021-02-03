@@ -78,7 +78,10 @@
         "sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\"",
         "sudo apt-get update",
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq docker-ce",
-        "yes | gcloud auth configure-docker"
+        "yes | gcloud auth configure-docker",
+        "echo 'DOCKER_OPTS=\"--registry-mirror=https://mirror.gcr.io\"' | tee /etc/default/docker",
+        "sudo systemctl daemon-reload",
+        "sudo systemctl restart docker"
       ],
       "only": ["docker", "kvm"]
     },
