@@ -1,5 +1,7 @@
 gcp_credentials: ENCRYPTED[1b5c33f6a4dad695c900754d08d5f69658be074ccde2b78e7958ea07d81d149cc9c15bab6be2d7fad6c1058a81c7cea3]
 
+only_if: $CIRRUS_BRANCH == "master"
+
 gce_instance:
   image_project: cirrus-images
   image_family: ubuntu-packer
@@ -16,7 +18,6 @@ ubuntu_task:
   build_script: >
     packer build -force \
       -var 'gcp_project_id=cirrus-images' \
-      -var 'gce_base_image_version=v20201130' \
       googlecompute/ubuntu_images.json
 
 windows_task:
@@ -24,6 +25,4 @@ windows_task:
   build_script: >
     packer build -force \
       -var 'gcp_project_id=cirrus-images' \
-      -var 'gce_base_image_version=v20201110' \
-      -var 'java_version=11' \
       googlecompute/windows_images.json

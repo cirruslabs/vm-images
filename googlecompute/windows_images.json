@@ -5,7 +5,7 @@
       "name": "docker-2019",
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
-      "source_image": "windows-server-2019-dc-core-for-containers-{{user `gce_base_image_version`}}",
+      "source_image_family": "windows-server-2019-dc-core-for-containers-{{user `gce_base_image_version`}}",
       "image_name": "windows-docker-builder-{{user `gce_base_image_version`}}",
       "image_family": "windows-docker-builder",
       "machine_type": "n1-standard-4",
