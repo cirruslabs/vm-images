@@ -1,13 +1,5 @@
-# Before building for your own GCP project
+# Packer templates for Cirrus VMs
 
-## Create WinRM firewall rule
+Used for running [Docker Builder](https://cirrus-ci.org/guide/docker-builder-vm/) and [KVM-enabled](https://cirrus-ci.org/guide/linux/#kvm-enabled-privileged-containers) instances.
 
-By default traffic on `tcp:5986` is not allowed so we need to add a firewall rule for a project we want to build images for:
-
-```bash
-gcloud compute firewall-rules create default-allow-winrm \
-    --project <Project ID> \
-    --allow tcp:5986 \
-    --priority 65534 \
-    --target-tags packer
-```
+Instances are pubclicly avaibale under `cirrus-images` GCP project: `cirrus-images/family/docker-builder` and `cirrus-images/family/docker-kvm` repectively.
