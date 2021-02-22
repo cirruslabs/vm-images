@@ -15,14 +15,15 @@ gce_instance:
 
 ubuntu_task:
   version_script: packer --version
-  build_script: >
-    packer build -force \
-      -var 'gcp_project_id=cirrus-images' \
-      googlecompute/ubuntu_images.json
+  build_script:
+    - export DATE=$(date +'%Y%m%d')
+    - packer build -force -var 'gcp_project_id=cirrus-images' -var "current_date=$DATE" googlecompute/ubuntu_images.json
+    - gcloud compute images add-iam-policy-binding docker-builder-$DATE --member=allAuthenticatedUsers --role=roles/compute.imageUser
+    - gcloud compute images add-iam-policy-binding docker-kvm-$DATE --member=allAuthenticatedUsers --role=roles/compute.imageUser
 
 windows_task:
   version_script: packer --version
-  build_script: >
-    packer build -force \
-      -var 'gcp_project_id=cirrus-images' \
-      googlecompute/windows_images.json
+  build_script:
+    - export DATE=$(date +'%Y%m%d')
+    - packer build -force -var 'gcp_project_id=cirrus-images' -var "current_date=$DATE" googlecompute/windows_images.json
+    - gcloud compute images add-iam-policy-binding windows-docker-builder-$DATE --member=allAuthenticatedUsers --role=roles/compute.imageUser
