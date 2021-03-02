@@ -7,7 +7,7 @@ gce_instance:
   image_family: ubuntu-packer
   zone: us-central1-a
   cpu: 4
-  memory: 12Gb
+  memory: 16Gb
   scopes:
     - compute
     - devstorage.full_control
