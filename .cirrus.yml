@@ -6,9 +6,8 @@ gce_instance:
   image_project: cirrus-images
   image_family: ubuntu-packer
   zone: us-central1-a
-  cpu: 2
-  memory: 4Gb
-  disk: 40
+  cpu: 4
+  memory: 12Gb
   scopes:
     - compute
     - devstorage.full_control
