@@ -52,6 +52,12 @@
         "docker pull cirrusci/android-sdk:30-windowsservercore-2019",
         "docker pull python:3-windowsservercore"
       ]
+    },
+    {
+      "type": "windows-shell",
+      "inline": [
+        "powershell -Command \"Set-MpPreference -DisableRealtimeMonitoring 1\""
+      ]
     }
   ]
 }
