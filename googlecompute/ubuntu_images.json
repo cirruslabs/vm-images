@@ -84,7 +84,8 @@
         "yes | gcloud auth configure-docker",
         "echo 'DOCKER_OPTS=\"--registry-mirror=https://mirror.gcr.io\"' | tee /etc/default/docker",
         "sudo systemctl daemon-reload",
-        "sudo systemctl restart docker"
+        "sudo systemctl restart docker",
+        "sudo apt-get install qemu-user-static -y"
       ],
       "only": ["docker", "kvm"]
     },
@@ -104,7 +105,7 @@
     {
       "type": "shell",
       "inline": [
-        "sudo apt-get install qemu-kvm qemu-user-static -y"
+        "sudo apt-get install qemu-kvm -y"
       ],
       "only": ["kvm"]
     },
