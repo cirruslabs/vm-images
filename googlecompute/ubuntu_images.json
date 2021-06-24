@@ -67,7 +67,6 @@
         "sudo apt-get install -y python3-pip python3-dev build-essential",
         "sudo apt-get install -y ruby-dev",
         "sudo gem install bundler",
-        "sudo pip3 install awscli --upgrade",
         "sudo pip3 install docker docker-compose --upgrade",
         "curl https://cli-assets.heroku.com/install-ubuntu.sh | sh"
       ],
@@ -88,6 +87,16 @@
         "sudo apt-get install qemu-user-static -y"
       ],
       "only": ["docker", "kvm"]
+    },
+
+    {
+      "type": "shell",
+      "inline": [
+        "sudo pip3 install awscli awscliv2 --upgrade",
+        "aws --version",
+        "awsv2 --version"
+      ],
+      "only": ["docker"]
     },
     {
       "type": "shell",
