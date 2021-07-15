@@ -6,8 +6,8 @@
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
       "source_image_family": "ubuntu-2010",
-      "image_name": "docker-builder-{{user `current_date`}}",
-      "image_family": "docker-builder",
+      "image_name": "docker-builder-next-{{user `current_date`}}",
+      "image_family": "docker-builder-next",
       "disk_size": "100",
       "ssh_username": "root",
       "ssh_pty": "true",
@@ -20,8 +20,8 @@
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
       "source_image_family": "ubuntu-2010",
-      "image_name": "docker-kvm-{{user `current_date`}}",
-      "image_family": "docker-kvm",
+      "image_name": "docker-kvm-next-{{user `current_date`}}",
+      "image_family": "docker-kvm-next",
       "disk_size": "100",
       "min_cpu_platform": "Intel Haswell",
       "image_licenses": ["projects/vm-options/global/licenses/enable-vmx"],
@@ -92,9 +92,11 @@
     {
       "type": "shell",
       "inline": [
-        "sudo pip3 install awscli awscliv2 --upgrade",
-        "aws --version",
-        "awsv2 --version"
+        "curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip",
+        "unzip awscliv2.zip && rm awscliv2.zip",
+        "sudo ./aws/install",
+        "rm -rf aws",
+        "aws --version"
       ],
       "only": ["docker"]
     },
@@ -121,11 +123,11 @@
     {
       "type": "shell",
       "inline": [
-        "wget https://releases.hashicorp.com/packer/1.6.4/packer_1.6.4_linux_amd64.zip",
-        "sudo unzip packer_1.6.4_linux_amd64.zip -d packer",
+        "wget https://releases.hashicorp.com/packer/1.7.3/packer_1.7.3_linux_amd64.zip",
+        "sudo unzip packer_1.7.3_linux_amd64.zip -d packer",
         "sudo chmod +x packer/packer",
         "sudo mv packer/packer /usr/bin/",
-        "sudo rm packer_1.6.4_linux_amd64.zip",
+        "sudo rm packer_1.7.3_linux_amd64.zip",
         "sudo rm -rf packer"
       ],
       "only": ["packer"]
