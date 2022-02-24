@@ -63,12 +63,10 @@
     {
       "type": "shell",
       "inline": [
-        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq openjdk-17-jdk",
+        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-17-jdk",
         "sudo apt-get install -y python3-pip python3-dev build-essential",
         "sudo apt-get install -y ruby-dev",
-        "sudo gem install bundler",
-        "sudo pip3 install docker docker-compose --upgrade",
-        "curl https://cli-assets.heroku.com/install-ubuntu.sh | sh"
+        "sudo gem install bundler"
       ],
       "only": ["docker"]
     },
@@ -79,15 +77,24 @@
         "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg",
         "echo \"deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\" | sudo tee /etc/apt/sources.list.d/docker.list",
         "sudo apt-get update -y",
-        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq docker-ce docker-ce-cli containerd.io",
+        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y docker-ce docker-ce-cli containerd.io",
         "yes | gcloud auth configure-docker",
         "echo 'DOCKER_OPTS=\"--registry-mirror=https://mirror.gcr.io\"' | tee /etc/default/docker",
+        "sudo systemctl daemon-reload",
+        "sudo systemctl restart docker",
         "sudo apt-get install qemu-user-static -y",
         "docker --version"
       ],
       "only": ["docker", "kvm"]
     },
-
+    {
+      "type": "shell",
+      "inline": [
+        "sudo pip3 install docker-compose --upgrade",
+        "curl https://cli-assets.heroku.com/install-ubuntu.sh | sh"
+      ],
+      "only": ["docker"]
+    },
     {
       "type": "shell",
       "inline": [
