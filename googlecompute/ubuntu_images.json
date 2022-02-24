@@ -84,7 +84,7 @@
         "sudo pip3 install docker-compose --upgrade",
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y ruby-dev",
         "sudo gem install bundler",
-        "curl https://cli-assets.heroku.com/install-ubuntu.sh | sh"
+        "sudo snap install --classic heroku"
       ],
       "only": ["docker"]
     },
