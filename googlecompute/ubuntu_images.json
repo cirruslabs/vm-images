@@ -82,8 +82,6 @@
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq docker-ce docker-ce-cli containerd.io",
         "yes | gcloud auth configure-docker",
         "echo 'DOCKER_OPTS=\"--registry-mirror=https://mirror.gcr.io\"' | tee /etc/default/docker",
-        "sudo systemctl daemon-reload",
-        "sudo systemctl restart docker",
         "sudo apt-get install qemu-user-static -y",
         "docker --version"
       ],
