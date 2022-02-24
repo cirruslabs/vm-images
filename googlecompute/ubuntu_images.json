@@ -50,7 +50,6 @@
       "type": "shell",
       "inline": [
         "sudo apt-get update -y",
-        "sudo apt-get update -y",
         "sudo apt-get install -y -qq git vim build-essential zip"
       ]
     },
@@ -59,14 +58,6 @@
       "inline": [
         "sudo cp /usr/share/unattended-upgrades/20auto-upgrades-disabled /etc/apt/apt.conf.d/"
       ]
-    },
-    {
-      "type": "shell",
-      "inline": [
-        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-17-jdk",
-        "sudo apt-get install -y python3-pip python3-dev build-essential"
-      ],
-      "only": ["docker"]
     },
     {
       "type": "shell",
@@ -81,7 +72,6 @@
         "sudo systemctl daemon-reload",
         "sudo systemctl restart docker",
         "sudo apt-get install qemu-user-static -y",
-        "sudo pip3 install docker-compose --upgrade",
         "docker --version"
       ],
       "only": ["docker", "kvm"]
@@ -89,6 +79,8 @@
     {
       "type": "shell",
       "inline": [
+        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-17-jdk python3-pip python3-dev",
+        "sudo pip3 install docker-compose --upgrade",
         "sudo apt-get install -y ruby-dev",
         "sudo gem install bundler",
         "curl https://cli-assets.heroku.com/install-ubuntu.sh | sh"
