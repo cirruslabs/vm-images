@@ -64,9 +64,7 @@
       "type": "shell",
       "inline": [
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-17-jdk",
-        "sudo apt-get install -y python3-pip python3-dev build-essential",
-        "sudo apt-get install -y ruby-dev",
-        "sudo gem install bundler"
+        "sudo apt-get install -y python3-pip python3-dev build-essential"
       ],
       "only": ["docker"]
     },
@@ -83,6 +81,7 @@
         "sudo systemctl daemon-reload",
         "sudo systemctl restart docker",
         "sudo apt-get install qemu-user-static -y",
+        "sudo pip3 install docker-compose --upgrade",
         "docker --version"
       ],
       "only": ["docker", "kvm"]
@@ -90,7 +89,8 @@
     {
       "type": "shell",
       "inline": [
-        "sudo pip3 install docker-compose --upgrade",
+        "sudo apt-get install -y ruby-dev",
+        "sudo gem install bundler",
         "curl https://cli-assets.heroku.com/install-ubuntu.sh | sh"
       ],
       "only": ["docker"]
