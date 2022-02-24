@@ -72,7 +72,7 @@
         "echo 'DOCKER_OPTS=\"--registry-mirror=https://mirror.gcr.io\"' | tee /etc/default/docker",
         "sudo systemctl daemon-reload",
         "sudo systemctl restart docker",
-        "sudo apt-get install qemu-user-static -y",
+        "sudo DEBIAN_FRONTEND=noninteractive apt-get install qemu-user-static -y",
         "docker --version"
       ],
       "only": ["docker", "kvm"]
@@ -82,7 +82,7 @@
       "inline": [
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-17-jdk python3-pip python3-dev",
         "sudo pip3 install docker-compose --upgrade",
-        "sudo apt-get install -y ruby-dev",
+        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y ruby-dev",
         "sudo gem install bundler",
         "curl https://cli-assets.heroku.com/install-ubuntu.sh | sh"
       ],
