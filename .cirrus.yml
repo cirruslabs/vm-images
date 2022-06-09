@@ -1,4 +1,4 @@
-gcp_credentials: ENCRYPTED[1b5c33f6a4dad695c900754d08d5f69658be074ccde2b78e7958ea07d81d149cc9c15bab6be2d7fad6c1058a81c7cea3]
+gcp_credentials: ENCRYPTED[908f33fc87dc9f6d4cf978f0aa853d807a48885b8f90e46c5b21380673459098c0a84c094c38b2ab777cdb97c8c2e3dc]
 
 only_if: $CIRRUS_BRANCH == "master"
 
