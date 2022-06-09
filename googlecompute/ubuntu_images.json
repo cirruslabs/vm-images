@@ -72,8 +72,8 @@
         "echo 'DOCKER_OPTS=\"--registry-mirror=https://mirror.gcr.io\"' | tee /etc/default/docker",
         "sudo systemctl daemon-reload",
         "sudo systemctl restart docker",
-        "sudo DEBIAN_FRONTEND=noninteractive apt-get install qemu-user-static -y",
-        "docker --version"
+        "docker --version",
+        "docker run --privileged --rm tonistiigi/binfmt --install all"
       ],
       "only": ["docker", "kvm"]
     },

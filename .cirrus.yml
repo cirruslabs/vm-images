@@ -9,6 +9,7 @@ gce_instance:
   cpu: 4
   memory: 16Gb
   scopes:
+    - cloud-platform
     - compute
     - devstorage.full_control
 
