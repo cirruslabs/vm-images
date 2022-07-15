@@ -27,6 +27,10 @@ ubuntu_task:
     - export DATE=$(date +'%Y%m%d')
     - packer build -force -only=kvm -var 'gcp_project_id=cirrus-images' -var "current_date=$DATE" googlecompute/ubuntu_images.json
     - gcloud compute images add-iam-policy-binding docker-kvm-$DATE --member=allAuthenticatedUsers --role=roles/compute.imageUser
+  packer_script:
+    - export DATE=$(date +'%Y%m%d')
+    - packer build -force -only=packer -var 'gcp_project_id=cirrus-images' -var "current_date=$DATE" googlecompute/ubuntu_images.json
+    - gcloud compute images add-iam-policy-binding docker-packer-$DATE --member=allAuthenticatedUsers --role=roles/compute.imageUser
 
 windows_task:
   version_script: packer --version
