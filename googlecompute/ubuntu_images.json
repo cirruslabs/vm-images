@@ -16,6 +16,21 @@
     },
     {
       "type": "googlecompute",
+      "name": "docker-arm64",
+      "project_id": "{{user `gcp_project_id`}}",
+      "zone": "us-central1-a",
+      "source_image_family": "ubuntu-2204-lts-arm64",
+      "machine_type": "t2a-standard-4",
+      "image_name": "docker-builder-{{user `current_date`}}-arm64",
+      "image_family": "docker-builder-arm64",
+      "disk_size": "100",
+      "ssh_username": "root",
+      "ssh_pty": "true",
+      "preemptible": "true",
+      "tags": ["packer"]
+    },
+    {
+      "type": "googlecompute",
       "name": "kvm",
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
@@ -65,14 +80,20 @@
       "inline": [
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq apt-transport-https ca-certificates curl software-properties-common",
         "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg",
-        "echo \"deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\" | sudo tee /etc/apt/sources.list.d/docker.list",
+        "echo \"deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\" | sudo tee /etc/apt/sources.list.d/docker.list",
         "sudo apt-get update -y",
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y docker-ce docker-ce-cli containerd.io",
         "yes | gcloud auth configure-docker",
         "echo 'DOCKER_OPTS=\"--registry-mirror=https://mirror.gcr.io\"' | tee /etc/default/docker",
         "sudo systemctl daemon-reload",
         "sudo systemctl restart docker",
-        "docker --version",
+        "docker --version"
+      ],
+      "only": ["docker", "docker-arm64", "kvm"]
+    },
+    {
+      "type": "shell",
+      "inline": [
         "docker run --privileged --rm tonistiigi/binfmt --install all"
       ],
       "only": ["docker", "kvm"]
@@ -83,21 +104,20 @@
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-17-jdk python3-pip python3-dev",
         "sudo pip3 install docker-compose --upgrade",
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y ruby-dev",
-        "sudo gem install bundler",
-        "sudo snap install --classic heroku"
+        "sudo gem install bundler"
       ],
-      "only": ["docker"]
+      "only": ["docker", "docker-arm64"]
     },
     {
       "type": "shell",
       "inline": [
-        "curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip",
+        "curl https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip -o awscliv2.zip",
         "unzip awscliv2.zip && rm awscliv2.zip",
         "sudo ./aws/install",
         "rm -rf aws",
         "aws --version"
       ],
-      "only": ["docker"]
+      "only": ["docker", "docker-arm64"]
     },
     {
       "type": "shell",
