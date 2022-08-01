@@ -33,6 +33,7 @@ ubuntu_task:
     - gcloud compute images add-iam-policy-binding docker-packer-$DATE --member=allAuthenticatedUsers --role=roles/compute.imageUser
 
 windows_task:
+  timeout_in: 2h
   version_script: packer --version
   build_script:
     - export DATE=$(date +'%Y%m%d')
