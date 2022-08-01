@@ -1,6 +1,7 @@
 gcp_credentials: ENCRYPTED[908f33fc87dc9f6d4cf978f0aa853d807a48885b8f90e46c5b21380673459098c0a84c094c38b2ab777cdb97c8c2e3dc]
 
 only_if: $CIRRUS_BRANCH == "master"
+timeout_in: 2h
 
 gce_instance:
   image_project: cirrus-images
@@ -33,7 +34,6 @@ ubuntu_task:
     - gcloud compute images add-iam-policy-binding docker-packer-$DATE --member=allAuthenticatedUsers --role=roles/compute.imageUser
 
 windows_task:
-  timeout_in: 2h
   version_script: packer --version
   build_script:
     - export DATE=$(date +'%Y%m%d')
