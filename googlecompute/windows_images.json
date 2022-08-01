@@ -49,6 +49,7 @@
       "type": "windows-shell",
       "inline": [
         "docker version",
+        "gcloud auth configure-docker",
         "docker pull mcr.microsoft.com/windows/servercore:ltsc2019",
         "docker pull --all-tags cirrusci/windowsservercore",
         "docker pull cirrusci/android-sdk:tools-windowsservercore-2019",
