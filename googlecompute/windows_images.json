@@ -55,7 +55,7 @@
         "docker pull cirrusci/android-sdk:29-windowsservercore-2019",
         "docker pull cirrusci/android-sdk:30-windowsservercore-2019",
         "docker pull python:3-windowsservercore",
-        "gcloud auth configure-docker --quiet"
+        "gcloud auth configure-docker gcr.io --quiet"
       ]
     }
   ]
