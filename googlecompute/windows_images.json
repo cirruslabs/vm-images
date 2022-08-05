@@ -49,13 +49,13 @@
       "type": "windows-shell",
       "inline": [
         "docker version",
-        "gcloud auth configure-docker",
         "docker pull mcr.microsoft.com/windows/servercore:ltsc2019",
         "docker pull --all-tags cirrusci/windowsservercore",
         "docker pull cirrusci/android-sdk:tools-windowsservercore-2019",
         "docker pull cirrusci/android-sdk:29-windowsservercore-2019",
         "docker pull cirrusci/android-sdk:30-windowsservercore-2019",
-        "docker pull python:3-windowsservercore"
+        "docker pull python:3-windowsservercore",
+        "gcloud auth configure-docker --quiet"
       ]
     }
   ]
