@@ -63,7 +63,7 @@
         "docker pull cirrusci/android-sdk:tools-windowsservercore-2019",
         "docker pull cirrusci/android-sdk:29-windowsservercore-2019",
         "docker pull cirrusci/android-sdk:30-windowsservercore-2019",
-        "docker pull python:3-windowsservercore",
+        "docker pull python:3-windowsservercore"
       ]
     }
   ]
