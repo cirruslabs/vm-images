@@ -50,7 +50,7 @@
       "inline": [
         "echo %username%",
         "docker version",
-        "gcloud auth configure-docker --quiet",
+        "gcloud auth configure-docker --quiet gcr.io",
         "type %USERPROFILE%\\.docker\\config.json"
       ]
     },
