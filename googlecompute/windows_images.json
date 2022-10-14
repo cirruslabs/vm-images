@@ -15,8 +15,8 @@
       "winrm_username": "packer_user",
       "winrm_insecure": true,
       "winrm_use_ssl": true,
-      "winrm_timeout": "25m",
-      "state_timeout": "25m",
+      "winrm_timeout": "10m",
+      "state_timeout": "10m",
       "metadata": {
         "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add packer_user & net localgroup administrators packer_user /add & winrm set winrm/config/service/auth @{Basic=\"true\"}"
       },
@@ -24,6 +24,14 @@
     }
   ],
   "provisioners": [
+    {
+      "type": "windows-shell",
+      "inline": [
+        "echo %username%",
+        "gcloud auth configure-docker --quiet gcr.io",
+        "type %USERPROFILE%\\.docker\\config.json"
+      ]
+    },
     {
       "type": "windows-shell",
       "inline": [
@@ -42,16 +50,8 @@
         "net stop docker",
         "dockerd --unregister-service",
         "dockerd --register-service --storage-opt size=100G",
-        "net start docker"
-      ]
-    },
-    {
-      "type": "windows-shell",
-      "inline": [
-        "echo %username%",
-        "docker version",
-        "gcloud auth configure-docker --quiet gcr.io",
-        "type %USERPROFILE%\\.docker\\config.json"
+        "net start docker",
+        "docker version"
       ]
     },
     {
