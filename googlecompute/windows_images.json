@@ -18,7 +18,7 @@
       "winrm_timeout": "10m",
       "state_timeout": "10m",
       "metadata": {
-        "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add packer_user & net localgroup administrators packer_user /add & winrm set winrm/config/service/auth @{Basic=\"true\"}"
+        "windows-startup-script-cmd": "gcloud auth configure-docker --quiet & winrm quickconfig -quiet & net user /add packer_user & net localgroup administrators packer_user /add & winrm set winrm/config/service/auth @{Basic=\"true\"}"
       },
       "tags": ["packer"]
     }
@@ -27,9 +27,7 @@
     {
       "type": "windows-shell",
       "inline": [
-        "echo %username%",
-        "gcloud auth configure-docker --quiet gcr.io",
-        "type %USERPROFILE%\\.docker\\config.json"
+        "echo %username%"
       ]
     },
     {
