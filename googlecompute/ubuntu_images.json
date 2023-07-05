@@ -122,13 +122,8 @@
     {
       "type": "shell",
       "inline": [
-        "sudo docker pull cirrusci/wget:latest",
-        "sudo docker pull cirrusci/android-sdk:tools",
-        "sudo docker pull cirrusci/android-sdk:29",
-        "sudo docker pull cirrusci/android-sdk:30",
-        "sudo docker pull cirrusci/flutter:stable",
-        "sudo docker pull cirrusci/flutter:beta",
-        "sudo docker pull cirrusci/flutter:latest"
+        "sudo docker pull ghcr.io/cirruslabs/android-sdk:tools",
+        "sudo docker pull ghcr.io/cirruslabs/android-sdk:33"
       ],
       "only": ["kvm"]
     },
