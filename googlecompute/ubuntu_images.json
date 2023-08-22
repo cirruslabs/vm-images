@@ -44,20 +44,6 @@
       "ssh_pty": "true",
       "preemptible": "true",
       "tags": ["packer"]
-    },
-    {
-      "type": "googlecompute",
-      "name": "packer",
-      "project_id": "{{user `gcp_project_id`}}",
-      "zone": "us-central1-a",
-      "source_image_family": "ubuntu-2204-lts",
-      "image_name": "docker-packer-{{user `current_date`}}",
-      "image_family": "ubuntu-packer",
-      "disk_size": "100",
-      "ssh_username": "root",
-      "ssh_pty": "true",
-      "preemptible": "true",
-      "tags": ["packer"]
     }
   ],
   "provisioners": [
@@ -111,6 +97,18 @@
     {
       "type": "shell",
       "inline": [
+        "wget https://releases.hashicorp.com/packer/1.9.4/packer_1.9.4_linux_$(uname -m).zip",
+        "sudo unzip packer_1.9.4_linux_$(uname -m).zip -d packer",
+        "sudo chmod +x packer/packer",
+        "sudo mv packer/packer /usr/bin/",
+        "sudo rm packer_1.9.4_linux_$(uname -m).zip",
+        "sudo rm -rf packer"
+      ],
+      "only": ["docker", "docker-arm64"]
+    },
+    {
+      "type": "shell",
+      "inline": [
         "curl https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip -o awscliv2.zip",
         "unzip awscliv2.zip && rm awscliv2.zip",
         "sudo ./aws/install",
@@ -133,18 +131,6 @@
         "sudo apt-get install qemu-kvm -y"
       ],
       "only": ["kvm"]
-    },
-    {
-      "type": "shell",
-      "inline": [
-        "wget https://releases.hashicorp.com/packer/1.8.2/packer_1.8.2_linux_amd64.zip",
-        "sudo unzip packer_1.8.2_linux_amd64.zip -d packer",
-        "sudo chmod +x packer/packer",
-        "sudo mv packer/packer /usr/bin/",
-        "sudo rm packer_1.8.2_linux_amd64.zip",
-        "sudo rm -rf packer"
-      ],
-      "only": ["packer"]
     }
   ]
 }
