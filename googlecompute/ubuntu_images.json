@@ -71,8 +71,6 @@
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin",
         "gcloud auth configure-docker --quiet",
         "echo 'DOCKER_OPTS=\"--registry-mirror=https://mirror.gcr.io\"' | tee /etc/default/docker",
-        "sudo systemctl daemon-reload",
-        "sudo systemctl restart docker",
         "docker --version"
       ],
       "only": ["docker", "docker-arm64", "kvm"]
@@ -121,7 +119,8 @@
       "type": "shell",
       "inline": [
         "sudo docker pull ghcr.io/cirruslabs/android-sdk:tools",
-        "sudo docker pull ghcr.io/cirruslabs/android-sdk:33"
+        "sudo docker pull ghcr.io/cirruslabs/android-sdk:33",
+        "sudo docker pull ghcr.io/cirruslabs/android-sdk:34"
       ],
       "only": ["kvm"]
     },
