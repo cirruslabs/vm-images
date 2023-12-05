@@ -95,12 +95,10 @@
     {
       "type": "shell",
       "inline": [
-        "wget https://releases.hashicorp.com/packer/1.9.4/packer_1.9.4_linux_$(uname -m).zip",
-        "sudo unzip packer_1.9.4_linux_$(uname -m).zip -d packer",
-        "sudo chmod +x packer/packer",
-        "sudo mv packer/packer /usr/bin/",
-        "sudo rm packer_1.9.4_linux_$(uname -m).zip",
-        "sudo rm -rf packer"
+        "curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -",
+        "sudo apt-add-repository \"deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main\"",
+        "sudo apt-get update && sudo apt-get install packer",
+        "packer --version"
       ],
       "only": ["docker", "docker-arm64"]
     },
