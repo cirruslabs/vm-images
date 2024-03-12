@@ -5,7 +5,7 @@ timeout_in: 2h
 
 gce_instance:
   image_project: cirrus-images
-  image_family: ubuntu-packer
+  image_family: docker
   zone: us-central1-b
   cpu: 4
   memory: 16Gb
