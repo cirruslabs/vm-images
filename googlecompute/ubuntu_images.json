@@ -85,7 +85,7 @@
     {
       "type": "shell",
       "inline": [
-        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-17-jdk python3-pip python3-dev python3-venv",
+        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-19-jdk python3-pip python3-dev python3-venv",
         "sudo pip3 install docker-compose --upgrade",
         "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y ruby-dev",
         "sudo gem install bundler"
@@ -117,7 +117,6 @@
       "type": "shell",
       "inline": [
         "sudo docker pull ghcr.io/cirruslabs/android-sdk:tools",
-        "sudo docker pull ghcr.io/cirruslabs/android-sdk:33",
         "sudo docker pull ghcr.io/cirruslabs/android-sdk:34"
       ],
       "only": ["kvm"]
