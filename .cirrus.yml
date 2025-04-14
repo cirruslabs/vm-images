@@ -16,7 +16,7 @@ gce_instance:
 
 ubuntu_task:
   version_script: packer --version
-  init_script: packer init googlecompute/ubuntu_images.json
+  install_script: packer plugins install github.com/hashicorp/googlecompute
   build_docker_script:
     - export DATE=$(date +'%Y%m%d')
     - packer build -force -only=docker -var 'gcp_project_id=cirrus-images' -var "current_date=$DATE" googlecompute/ubuntu_images.json
