@@ -35,6 +35,7 @@
       "project_id": "{{user `gcp_project_id`}}",
       "zone": "us-central1-a",
       "source_image_family": "ubuntu-2404-lts-amd64",
+      "machine_type": "n1-standard-2",
       "image_name": "docker-kvm-{{user `current_date`}}",
       "image_family": "docker-kvm",
       "disk_size": "100",
