@@ -38,6 +38,7 @@
       "image_name": "docker-kvm-{{user `current_date`}}",
       "image_family": "docker-kvm",
       "disk_size": "100",
+      "machine_type": "n1-standard-2",
       "min_cpu_platform": "Intel Haswell",
       "image_licenses": ["projects/vm-options/global/licenses/enable-vmx"],
       "ssh_username": "root",
