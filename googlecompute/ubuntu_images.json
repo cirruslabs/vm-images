@@ -114,7 +114,7 @@
       "type": "shell",
       "inline": [
         "sudo docker pull ghcr.io/cirruslabs/android-sdk:tools",
-        "sudo docker pull ghcr.io/cirruslabs/android-sdk:34"
+        "sudo docker pull ghcr.io/cirruslabs/android-sdk:35"
       ],
       "only": ["kvm"]
     },
